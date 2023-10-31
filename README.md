@@ -66,16 +66,16 @@ Fonctions pour réaliser une modélisation d'une courbe du type `y=f(x)`.
 
 ### > Fonctions classiques
 
-| Fonction                                       | Description          |
-| ---------------------------------------------- | -------------------- |
-| `ajustement_lineaire(x, y)`                    | $y=ax$               |
-| `ajustement_affine(x, y)`                      | $y=ax+b$             |
-| `ajustement_parabolique(x, y)`                 | $y=ax^2+bx+c$        |
-| `ajustement_exponentielle_croissante(x, y)`    | $y=A(1-e^{-x/\tau})$ |
-| `ajustement_exponentielle_decroissante(x, y)`  | $y = Ae^{-x/\tau}$   |
-| `ajustement_exponentielle2_croissante(x, y)`   | $y = A(1-e^{-kx})$   |
-| `ajustement_exponentielle2_decroissante(x, y)` | $y = Ae^{-kx}$       |
-| `ajustement_puissance(x, y)`                   | $y=Ax^n$             |
+| Fonction                                       | Description               |
+| ---------------------------------------------- | ------------------------- |
+| `ajustement_lineaire(x, y)`                    | $y=a\cdot x$              |
+| `ajustement_affine(x, y)`                      | $y=a\cdot x+b$            |
+| `ajustement_parabolique(x, y)`                 | $y=a\cdot x^2+b\cdot x+c$ |
+| `ajustement_exponentielle_croissante(x, y)`    | $y=A\cdot(1-e^{-x/\tau})$ |
+| `ajustement_exponentielle_decroissante(x, y)`  | $y = A\cdot e^{-x/\tau}$  |
+| `ajustement_exponentielle2_croissante(x, y)`   | $y = A\cdot(1-e^{-kx})$   |
+| `ajustement_exponentielle2_decroissante(x, y)` | $y = A\cdot e^{-kx}$      |
+| `ajustement_puissance(x, y)`                   | $y=A\cdot x^n$            |
 
 ### > Réponses fréquentielles
 
@@ -85,19 +85,29 @@ Fonctions pour réaliser une modélisation d'une courbe du type `y=f(x)`.
 
 `ajustement_ordre1_passe_bas_dephasage(f, phi)`
 
+
+
 `ajustement_ordre1_passe_haut_transmittanc(f, T)`
 
 `ajustement_ordre1_passe_haut_gain(f, G)`
 
 `ajustement_ordre1_passe_haut_dephasage(f, phi)`
 
+
+
 `ajustement_ordre2_passe_bas_transmittance(f, T)`
 
 `ajustement_ordre2_passe_haut_transmittance(f, T)`
 
+`ajustement_ordre2_passe_haut_dephasage(f, phi)`
+
+
+
 `ajustement_ordre2_passe_bande_transmittance(f, T)`
 
 `ajustement_ordre2_passe_bande_gain(f, G)`
+
+`ajustement_ordre2_passe_bande_dephasage(f, phi)`
 
 ### > Exemple
 
