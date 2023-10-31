@@ -1,3 +1,4 @@
 build/
 dist/
-physique.egg-info/
+physapp.egg-info/
+physapp/__pycache__

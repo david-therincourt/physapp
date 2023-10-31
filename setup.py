@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="physique", # Replace with your own username
-    version="0.4.2",
+    name="physapp", # Replace with your own username
+    version="0.3.0",
     author="David THERINCOURT",
     author_email="dtherincourt@gmail.com",
-    description="Librairie Python pour les sciences physiques",
+    description="Librairie Python pour la physique appliquée",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/david-therincourt/physique",
+    url="https://github.com/david-therincourt/physapp",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

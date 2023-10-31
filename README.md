@@ -1,214 +1,168 @@
-# Librairie Python pour les sciences physiques au lycée
+# Librairie Python pour la physique appliquée
 
 ## Installation
 
-### A partir des dépôts de PyPi
+Dans un terminal :
 
-Lancer dans un terminal :
+    pip install physapp
 
-	pip install physique
-
-Dépendance à installer :
+Mise à jour :
 
 ```python
-pip install pyserial
+pip install --upgrade physapp
 ```
 
+---
 
+## Dépendances
 
-### A partir de l'archive de la bibliothèque
+Cette librairie se base principalement sur les librairies `numpy`, `matplotlib` et `scipy`
 
-Télécharger [ici](https://pypi.org/project/physique/#files) le fichier `physique-x.x.whl`. Les caractères `x` sont à remplacer par les numéros de version.
+---
 
-Dans une console Python dans le même répertoire que l'archive et lancer la commande suivante :
+## Module `physapp`
 
-	pip install physique-x.x.whl
+### > Fonctions disponibles
 
-## Utilisation
+`derive(y, x)`
 
-### Le module `modelisation`
+`integrale(y, x, xmin, xmax)`
 
-Fonctions pour réaliser une modélisation d'une courbe du type `y=f(x)`.
+`spectre_amplitude(y, t, T)`
 
-#### Fonctions disponibles
+`spectre_RMS(y, t, T)`
 
-| Fonctions                                      | Valeurs de retour    | Type de fonction modélisée   |
-| ---------------------------------------------- | -------------------- | ---------------------------- |
-| ` ajustement_lineaire(x, y)`                    | `a`                  | `y=ax​`                       |
-| `ajustement_affine(x, y)`                       | `a`  et `b`          | `y=ax+b​`                     |
-| `ajustement_parabolique(x, y)`                  | `a` , `b` et  `c`    | `y=a x^2+bx+c​`               |
-| `ajustement_exponentielle_croissante(x, y)`      | `A`  et `tau`        | `y = A*(1-exp(-x/tau))`      |
-| `ajustement_exponentielle_croissante_x0(x, y)`    | `A` , `tau` et  `x0` | `y = A*(1-exp(-(x-x0)/tau))` |
-| `ajustement_exponentielle_decroissante(x, y)`    | `A`  et `tau`        | `y = A*exp(-x/tau)`          |
-| `ajustement_exponentielle_decroissante_x0(x, y) ` | `A` , `tau` et  `x0` | `y = A*exp(-(x-x0)/tau)`     |
+`spectre_RMS_dBV(y, t, T)`
 
-#### Exemple :
+### > Exemple
 
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
-from physique.modelisation import ajustement_parabolique
+from physapp import integrale
+from physapp.csv import load_oscillo_csv
 
-x = np.array([0.003,0.141,0.275,0.410,0.554,0.686,0.820,0.958,1.089,1.227,1.359,1.490,1.599,1.705,1.801])
-y = np.array([0.746,0.990,1.175,1.336,1.432,1.505,1.528,1.505,1.454,1.355,1.207,1.018,0.797,0.544,0.266])
+t, u = load_oscillo_csv('scope.csv')
 
-[a, b, c] = ajustement_parabolique(x, y)
-print(a, b, c)
+f = 125
+T = 1/f
+aire = integrale(u, t, 0, T, plot_ax=plt)
+moy = aire/T
 
-x_mod = np.linspace(0,max(x),50)
-y_mod = a*x_mod**2 + b*x_mod + c
-
-plt.plot(x_mod, y_mod, '-')
-plt.plot(x, y, 'x')
+plt.plot(t, u)
+plt.axhline(moy, ls="--", color="C3")
+plt.text(0.65*T, moy+0.2, "Moy = {:.2f} V".format(moy), color="C3")
+plt.title("Valeur moyenne d'un signal périodique")
+plt.xlabel("t (s)")
+plt.ylabel("u (V)")
+plt.grid()
 plt.show()
 ```
 
-### Le module `CSV`
+![](https://david-therincourt.fr/python/pypi-physique/exemple_3.png)
 
-Modules d'importation de tableau de données au format CSV à partir des logiciels Aviméca3, Regavi, ...
+## Module `physapp.modelisation`
 
-#### Quelques fonctions disponibles
+Fonctions pour réaliser une modélisation d'une courbe du type `y=f(x)`.
 
-* `import_avimeca3_txt(fichier)`  ou `import_avimeca3_txt(fichier, sep=';')`
-* `import_regavi_txt(fichier)`  ou `import_regavi_txt(fichier, sep=';')` 
+### > Fonctions classiques
 
-Le paramètre `sep` (séparateur de données) est optionnel. La tabulation (`sep='\t'`) est le séparateur par défaut.
+| Fonction                                       | Description          |
+| ---------------------------------------------- | -------------------- |
+| `ajustement_lineaire(x, y)`                    | $y=ax$               |
+| `ajustement_affine(x, y)`                      | $y=ax+b$             |
+| `ajustement_parabolique(x, y)`                 | $y=ax^2+bx+c$        |
+| `ajustement_exponentielle_croissante(x, y)`    | $y=A(1-e^{-x/\tau})$ |
+| `ajustement_exponentielle_decroissante(x, y)`  | $y = Ae^{-x/\tau}$   |
+| `ajustement_exponentielle2_croissante(x, y)`   | $y = A(1-e^{-kx})$   |
+| `ajustement_exponentielle2_decroissante(x, y)` | $y = Ae^{-kx}$       |
+| `ajustement_puissance(x, y)`                   | $y=Ax^n$             |
 
-#### Exemple :
+### > Réponses fréquentielles
+
+`ajustement_ordre1_passe_bas_transmittance(f, T)`
+
+`ajustement_ordre1_passe_bas_gain(f, G)`
+
+`ajustement_ordre1_passe_bas_dephasage(f, phi)`
+
+`ajustement_ordre1_passe_haut_transmittanc(f, T)`
+
+`ajustement_ordre1_passe_haut_gain(f, G)`
+
+`ajustement_ordre1_passe_haut_dephasage(f, phi)`
+
+`ajustement_ordre2_passe_bas_transmittance(f, T)`
+
+`ajustement_ordre2_passe_haut_transmittance(f, T)`
+
+`ajustement_ordre2_passe_bande_transmittance(f, T)`
+
+`ajustement_ordre2_passe_bande_gain(f, G)`
+
+### > Exemple
 
 ```python
 import matplotlib.pyplot as plt
-from physique.csv import import_avimeca3_txt
+from physapp.modelisation import ajustement_parabolique
 
-t, x, y = import_avimeca3_txt('data1_avimeca3.txt')
+x = [0.003,0.141,0.275,0.410,0.554,0.686,0.820,0.958,1.089,1.227,1.359,1.490,1.599,1.705,1.801]
+y = [0.746,0.990,1.175,1.336,1.432,1.505,1.528,1.505,1.454,1.355,1.207,1.018,0.797,0.544,0.266]
+
+modele = ajustement_parabolique(x, y)
+
+plt.plot(x, y, '+', label="Mesures")
+modele.plot()
+plt.legend(facecolor="linen")
+plt.title("Trajectoire d'un ballon")
+plt.xlabel("x (m)")
+plt.ylabel("y (m)")
+plt.grid()
+plt.show()
+```
+
+![](https://david-therincourt.fr/python/pypi-physique/exemple_1.png)
+
+---
+
+## Module `physapp.csv`
+
+Module d'importation de tableau de données au format CSV à partir des logiciels Aviméca3, Regavi, ...
+
+#### > Fonctions disponibles
+
+`load_txt(fileName)`
+
+`load_avimeca3_txt(fileName)`  
+
+`load_regavi_txt(fileName)`
+
+`load_regressi_txt(fileName)`
+
+`load_regressi_csv(fileName)`
+
+`load_oscillo_csv(filename)`
+
+`load_ltspice_csv(filename)`
+
+`save_txt(data, fileName)`
+
+#### > Exemple
+
+```python
+import matplotlib.pyplot as plt
+from physapp.csv import load_avimeca3_txt
+
+t, x, y = load_avimeca3_txt('data.txt')
 
 plt.plot(x,y,'.')
+plt.title("Trajectoire d'un ballon")
 plt.xlabel('x (m)')
 plt.ylabel('y (m)')
 plt.grid()
-plt.title("Trajectoire d'un ballon")
 plt.show()
 ```
 
-Le fichier ` data.txt` est obtenu par l'exportation de données au format CSV dans le locigiel Aviméca3.
+Le fichier `data.txt` a été exporté du logiciel Avimeca 3 à partir d'un exemple !
 
-### Le module ` pyboard`
-
-Module d’interfaçage d'une carte microcontrôleur (PyBoard, ESP32, Micro:bit, ...) fonctionnant avec MicroPython à partir d'un ordinateur sous Python classique par le port série (USB, Bluetooth, ...) ou par le réseau.
-
-#### Exécuter des instructions MicroPython dans un programme Python
-
-```python
-from physique.pyboard import Pyboard
-
-pyboard = Pyboard("COM3") # Port série de la carte ("/dev/ttyACM0" pour linux)
-pyboard.enter_raw_repl()
-pyboard.exec('import pyb')       # Exécute une instruction MicroPython
-pyboard.exec('pyb.LED(1).on()')  # Exécute une autre instruction MicroPython
-pyboard.exit_raw_repl()
-```
-
-Ou plusieurs instructions à la fois :
-
-```python
-from physique.pyboard import Pyboard
-from time import sleep
-
-pyboard = Pyboard("COM3") # Port série de la carte ("/dev/ttyACM0" pour linux)
-pyboard.enter_raw_repl()  # Entre dans le mode REPL
-
-pyboard.exec("""          # Execute plusieurs instructions
-from pyb import LED
-led = LED(1)
-""")
-for i in range(10):
-    pyboard.exec("led.toggle()")
-    sleep(1)
-   
-pyboard.exit_raw_repl()   # Sort du mode REPL
-```
-
-
-
-#### Exécuter un fichier MicroPython dans un programme Python
-
-* `exec_file(nomFichier)`
-
-  Exécute un programme MicroPython sur le microcontrôleur à partir d’un fichier `.py` présent sur l’ordinateur.
-
-* `exec_file_to_data(nomFichier) `
-
-  Exécute un programme MicroPython sur le microcontrôleur à partir d’un fichier `.py` présent sur l’ordinateur. Retourne un tuple envoyé par une fonction `print(tuple)`  placée dans le programme MicroPython.
-
-##### Exemple :
-
-Programme MicroPython `read_adc.py` pour carte PyBoard (lecture sur entrée analogique) :
-
-```python
-from pyb import Pin, ADC
-from time import sleep_ms
-adc = ADC(Pin('A0'))     # Broche X1 ou A0 en entrée analogique
-x, y = [], []            # Tableaux vides au départ
-for i in range(10):      # Mesures
-    x.append(i)
-    y.append(adc.read()) # Lecture sur CAN
-    sleep_ms(500)        # attendre 500 ms
-data = x, y              # Tuple de données
-print(data)              # Envoie des données
-```
-
-Programme Python sur l'ordinateur dans le même répertoire que le programme MicroPython :
-
-```python
-import matplotlib.pyplot as plt
-from physique.pyboard import Pyboard
-
-pyboard = Pyboard("COM3") # Port série de la carte ("/dev/ttyACM0" pour linux)
-x, y = pyboard.exec_file_to_data("read_adc.py")
-
-plt.plot(x,y,'r.')
-plt.ylim(0,5000)
-plt.show()
-```
-
-#### Exécuter un script MicroPython dans un programme Python
-
-* `exec_script(nomFichier)`
-
-  Exécute un script Micropython sur le microcontrôleur dans un programme Python classique.
-
-* `exec_script_to_data(nomFichier) `
-
-  Exécute un script Micropython sur le microcontrôleur dans un programme Python classique. Retourne un tuple envoyé par une fonction `print(tuple)`  placée dans le programme Micropython.
-
-##### Exemple :
-
-Idem que l’exemple précédent mais dans un seul programme.
-
-```python
-import matplotlib.pyplot as plt
-from physique.pyboard import Pyboard
-
-script = """
-from pyb import Pin, ADC
-from time import sleep_ms
-adc = ADC(Pin('A0'))     # Broche X1 ou A0 en entrée analogique
-x, y = [], []            # Tableaux vides au départ
-for i in range(10):      # Mesures
-    x.append(i)
-    y.append(adc.read()) # Lecture sur CAN
-    sleep_ms(500)        # attendre 500 ms
-data = x, y              # Tuple de données
-print(data)              # Envoie des données
-"""
-
-pyboard = Pyboard("COM3") # Port série de la carte ("/dev/ttyACM0" pour linux)
-x, y = pyboard.exec_script_to_data(script)
-
-plt.plot(x,y,'r.')
-plt.ylim(0,5000)
-plt.show()
-```
-
-
-
+![](https://david-therincourt.fr/python/pypi-physique/exemple_2.png)
