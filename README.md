@@ -20,7 +20,7 @@ Cette librairie se base principalement sur les librairies `numpy`, `matplotlib` 
 
 ---
 
-## Module `physapp`
+## Module `physapp.base`
 
 ### > Fonctions disponibles
 
@@ -39,8 +39,7 @@ Cette librairie se base principalement sur les librairies `numpy`, `matplotlib` 
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
-from physapp import integrale
-from physapp.csv import load_oscillo_csv
+from physapp import load_oscillo_csv, integrale
 
 t, u = load_oscillo_csv('scope.csv')
 
@@ -104,7 +103,7 @@ Fonctions pour réaliser une modélisation d'une courbe du type `y=f(x)`.
 
 ```python
 import matplotlib.pyplot as plt
-from physapp.modelisation import ajustement_parabolique
+from physapp import ajustement_parabolique
 
 x = [0.003,0.141,0.275,0.410,0.554,0.686,0.820,0.958,1.089,1.227,1.359,1.490,1.599,1.705,1.801]
 y = [0.746,0.990,1.175,1.336,1.432,1.505,1.528,1.505,1.454,1.355,1.207,1.018,0.797,0.544,0.266]
@@ -151,7 +150,7 @@ Module d'importation de tableau de données au format CSV à partir des logiciel
 
 ```python
 import matplotlib.pyplot as plt
-from physapp.csv import load_avimeca3_txt
+from physapp import load_avimeca3_txt
 
 t, x, y = load_avimeca3_txt('data.txt')
 
