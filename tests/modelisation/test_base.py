@@ -1,13 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun May 26 15:46:31 2019
-@author: david
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
-from physapp import ajustement_affine, ajustement_lineaire, ajustement_parabolique
+from physapp.modelisation import ajustement_affine, ajustement_lineaire, ajustement_parabolique
 
 
 # Linéaire
@@ -29,7 +22,8 @@ modele.set_label_print_error(False)
 print(modele)
 
 plt.plot(x, y, '+r', label="Mesures")
-line = modele.plot()
+modele.plot()
+modele.label()
 plt.legend()
 plt.grid()
 plt.show()

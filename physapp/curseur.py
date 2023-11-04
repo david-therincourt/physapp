@@ -24,13 +24,23 @@
 # THE SOFTWARE.
 
 """
-Librairie Python 3 pour la physique appliquée en classe de BTS
-
-
-@author: David Thérincourt - 2023
+Module curseur
 """
 
-from physapp.base import derive, integrale, spectre_amplitude, spectre_RMS, spectre_RMS_dBV
-from physapp.utils import pround, markdownTable
-import physapp.csv
-import physapp.modelisation
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+
+class Cursor():
+    def __init__(self, x, y):
+        self._x = x
+        self._y = y
+
+    def plot(self, *args, **kargs):
+        text = "({},{})".format(self._x, self._y)
+        ax = plt.gca()
+        ax.plot(self._x, self._y, '.', color='gray')
+        ax.axvline(self._x, ls='--', color='gray', *args, **kargs)
+        ax.axhline(self._y, ls='--', color='gray', *args, **kargs)
+        ax.text(self._x, self._y, text) # bbox=dict(facecolor='linen', alpha=0.5))

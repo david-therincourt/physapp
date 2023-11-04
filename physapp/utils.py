@@ -25,19 +25,38 @@
 
 """
 Module utils
+
+Fonctions :
+-----------
+
+    pround(x, n)
+
+        | Arrondir à N chiffres significatif avec zéro après.
+        
+    markdownTable(data)
+    
+        | Présente les valeurs de plusieurs listes (données) dans un tableau au format Markdown.
+
+@author: David Thérincourt - 2023  
 """
 import numpy as np
 from math import log10
 
 
+
+
+#######################################################
+#  Arrondir à N chiffres significatif avec zéro après #
+#######################################################
 def pround(x, n):
     """ Convertit un flottant en une chaîne de caractères avec n chiffres significatifs.
+    
     Paramètres :
-    x (float) : valeur à convertir
-    n (int)   : nombre de chiffres significatifs
+        x (float) : valeur à arrondir.
+        n (int)   : nombre de chiffres significatifs.
 
     Retourne :
-    Valeur arrondie (str)
+        (str) : Valeur arrondie.
     """
     x = float(x)
     x0 = abs(x)
@@ -78,7 +97,12 @@ def pround(x, n):
     return x_str
 
 
-def find_indice_up(x0, x):
+
+
+#########################################################
+#     Sélectionner des valeurs dans un tableau Numpy    #
+######################################################### 
+def __find_indice_up(x0, x):
     if type(x) == list:
         x = np.array(x)
     if (x[0] <= x0 <= x[-1]):
@@ -87,7 +111,7 @@ def find_indice_up(x0, x):
         messag = "{} not in x array !".format(x0)
         raise ValueError(messag)
     
-def find_indice_down(x0, x):
+def __find_indice_down(x0, x):
     if type(x) == list:
         x = np.array(x)
     if (x[0] <= x0 <= x[-1]):
@@ -102,9 +126,66 @@ def reduire(x, y, xlim_inf, xlim_sup):
         xlim_inf=x[0]
     if xlim_sup==None:
         xlim_sup=x[-1]
-    i_inf = find_indice_up(xlim_inf,  x)
-    i_sup = find_indice_down(xlim_sup,  x)
+    i_inf = __find_indice_up(xlim_inf,  x)
+    i_sup = __find_indice_down(xlim_sup,  x)
     return x[i_inf:i_sup+1], y[i_inf:i_sup+1], (xlim_inf, xlim_sup)
 
 
+
+
+########################################################
+#                 Markdown table                       #
+########################################################
+def __celluleText(text: str, width: int) -> str:
+    space_before = (width - len(text))//2
+    space_after = width - len(text) - space_before
+    return "| " + " "*space_before + text + " "*space_after
+
+def __celluleValue(x: float, width: int, nb_round:int) -> int:
+    formater = "{:." + str(nb_round) + "}"
+    val = formater.format(x)
+    return "| " + val + " "*(width - len(val)) 
+    
+
+def markdownTable(data: list, header: list = [], col_witdh: int = 12, nb_round: int = 4) -> int:
+    """ Retourne un tableau au format Markdown à partir des plusieurs tableaux de données.
+
+    Paramètres :
+        data        (2D array) : données à écrire dans le tableau.
+        header      (1D array) : liste des étiquettes de l'entête.
+        col_witdh   (int)      : largeur en caractères d'un colonne.
+        nb_round    (int)      : nombre de chiffres significatifs pour les arrondis.
+
+    Retourne :
+        (str) : chaîne de caractères au format Markdown
+    """
+
+    if type(data) == list:
+        data = np.array(data)
+        
+    nb_col = len(data)
+    nb_row = len(data[0])
+    witdh = col_witdh + 1
+    md_table = ""
+    
+    if header==[]:
+        for i in range(nb_col):
+            header.append("var_{}".format(i+1))
+            
+    for i in range(nb_col):
+        md_table += __celluleText(header[i], witdh)
+    md_table += "|\n"
+    
+    
+    for i in range(nb_col):
+        md_table += "| " + "-"*(witdh-1) + " "
+    md_table += "|\n"
+    
+    data = data.transpose()
+    for i in range(nb_row):
+        for j in range(nb_col):
+            md_table += __celluleValue(data[i,j], witdh, nb_round)
+        md_table += "|\n"
+    
+    return md_table
 
