@@ -18,12 +18,15 @@ y = [2.2, 4.1, 5.9, 8.2, 9.8, 11.9, 13.1, 16, 18.1, 19.8]
 #save_txt((x,y), "affine.txt")
 
 modele = ajustement_affine(x, y)
-modele.set_label_print_error(False)
 print(modele)
+
+modele2 = ajustement_lineaire(x,y)
 
 plt.plot(x, y, '+r', label="Mesures")
 modele.plot()
-modele.label()
+modele.legend()
+#modele2.plot()
+modele2.legend()
 plt.legend()
 plt.grid()
 plt.show()
