@@ -61,7 +61,7 @@ plt.grid()
 plt.show()
 ```
 
-![](https://david-therincourt.fr/python/pypi-physique/exemple_3.png)
+![](https://github.com/david-therincourt/physapp/blob/main/docs/integrale.png?raw=true)
 
 ## Module `physapp.modelisation`
 
@@ -183,4 +183,4 @@ plt.show()
 
 Le fichier `data.txt` a été exporté du logiciel Avimeca 3 à partir d'un exemple !
 
-![](https://david-therincourt.fr/python/pypi-physique/exemple_2.png)
+![](https://github.com/david-therincourt/physapp/blob/main/docs/csv_avimeca.png?raw=true)
