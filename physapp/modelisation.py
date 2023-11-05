@@ -37,7 +37,7 @@ class Modele():
         self._xlogspace = infos_dic['xlogspace']
 
         Modele._id = (Modele._id + 1)%10
-        self._name =  self._modele_shortname + " (M" + str(self._id) + ")"
+        self._name =  self._modele_shortname + " (" + str(self._id) + ")"
 
         self._niv_confiance = 0.95          # niveau de confiance pour coeff. de Student
         self._nb_round = 3                  # nombre de chiffres significatifs
@@ -67,7 +67,7 @@ class Modele():
         str = ''
         
         for i in range(len(values)):
-            str = str + "| " + names[i] + r"$=$" + "(" + pround(values[i], self._nb_round) + r"$~\pm$" + pround(errors[i],2) + ")\n"
+            str = str + names[i] + r"$=$" + "(" + pround(values[i], self._nb_round) + r"$~\pm$" + pround(errors[i],2) + ")\n"
         return str[:-1]
         
     def __popt_text(self):
