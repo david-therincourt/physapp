@@ -24,7 +24,7 @@ modele2 = ajustement_lineaire(x,y)
 
 plt.plot(x, y, '+r', label="Mesures")
 modele.plot(ls='--')
-modele.legend()
+modele.legend(loc=0)
 modele2.plot()
 modele2.legend()
 leg = plt.legend()

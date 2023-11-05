@@ -36,7 +36,7 @@ class Modele():
         self._popt_names_latex = infos_dic['popt_names_latex']
         self._xlogspace = infos_dic['xlogspace']
 
-        Modele._id += 1
+        Modele._id = (Modele._id + 1)%10
         self._name =  self._modele_shortname + " (M" + str(self._id) + ")"
 
         self._niv_confiance = 0.95          # niveau de confiance pour coeff. de Student
