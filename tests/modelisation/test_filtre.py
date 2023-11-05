@@ -22,7 +22,7 @@ modele = ajustement_ordre1_passe_bas_gain(f,G)
 #modele.set_xmin(10)
 #modele.set_xmax(1e6)
 
-modele.set_print_error(True)
+
 print(modele)
 
 
@@ -30,6 +30,7 @@ print(modele)
 
 plt.plot(f, G, '+r', label="Mesures")
 modele.plot()
+modele.legend()
 plt.xscale('log')
 plt.legend()
 plt.grid()
