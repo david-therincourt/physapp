@@ -16,7 +16,7 @@ pip install --upgrade physapp
 
 ## Dépendances
 
-Cette librairie se base principalement sur les librairies `numpy` (>=1.26), `matplotlib` (>=3.8) et `scipy` (>=1.11)
+Cette librairie se base principalement sur les librairies `numpy` , `matplotlib` et `scipy` .
 
 ---
 
@@ -39,15 +39,18 @@ Cette librairie se base principalement sur les librairies `numpy` (>=1.26), `mat
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
-from physapp import load_oscillo_csv, integrale
+from physapp import integrale
 
-t, u = load_oscillo_csv('scope.csv')
+### IMPORTATION DES DONNEES ###
+t, u = np.loadtxt('scope.csv', delimiter=',', skiprows=2, unpack=True)
 
+### CALCULS ###
 f = 125
 T = 1/f
 aire = integrale(u, t, 0, T, plot_ax=plt)
 moy = aire/T
 
+### COURBES ###
 plt.plot(t, u)
 plt.axhline(moy, ls="--", color="C3")
 plt.text(0.65*T, moy+0.2, "Moy = {:.2f} V".format(moy), color="C3")
@@ -62,7 +65,7 @@ plt.show()
 
 ## Module `physapp.modelisation`
 
-Fonctions pour réaliser une modélisation d'une courbe du type `y=f(x)`.
+Fonctions pour réaliser une modélisation d'une courbe expérimentale.
 
 ### > Fonctions classiques
 
@@ -85,23 +88,17 @@ Fonctions pour réaliser une modélisation d'une courbe du type `y=f(x)`.
 
 `ajustement_ordre1_passe_bas_dephasage(f, phi)`
 
-
-
 `ajustement_ordre1_passe_haut_transmittanc(f, T)`
 
 `ajustement_ordre1_passe_haut_gain(f, G)`
 
 `ajustement_ordre1_passe_haut_dephasage(f, phi)`
 
-
-
 `ajustement_ordre2_passe_bas_transmittance(f, T)`
 
 `ajustement_ordre2_passe_haut_transmittance(f, T)`
 
 `ajustement_ordre2_passe_haut_dephasage(f, phi)`
-
-
 
 `ajustement_ordre2_passe_bande_transmittance(f, T)`
 
@@ -113,7 +110,7 @@ Fonctions pour réaliser une modélisation d'une courbe du type `y=f(x)`.
 
 ```python
 import matplotlib.pyplot as plt
-from physapp import ajustement_parabolique
+from physapp.modelisation import ajustement_parabolique
 
 x = [0.003,0.141,0.275,0.410,0.554,0.686,0.820,0.958,1.089,1.227,1.359,1.490,1.599,1.705,1.801]
 y = [0.746,0.990,1.175,1.336,1.432,1.505,1.528,1.505,1.454,1.355,1.207,1.018,0.797,0.544,0.266]
@@ -121,8 +118,9 @@ y = [0.746,0.990,1.175,1.336,1.432,1.505,1.528,1.505,1.454,1.355,1.207,1.018,0.7
 modele = ajustement_parabolique(x, y)
 
 plt.plot(x, y, '+', label="Mesures")
-modele.plot()
-plt.legend(facecolor="linen")
+modele.plot()                        # Trace la courbe du modèle         
+modele.legend()                      # Affiche la légende du modèle
+plt.legend()
 plt.title("Trajectoire d'un ballon")
 plt.xlabel("x (m)")
 plt.ylabel("y (m)")
@@ -130,7 +128,18 @@ plt.grid()
 plt.show()
 ```
 
-![](https://david-therincourt.fr/python/pypi-physique/exemple_1.png)
+Résultat :
+
+```python
+Fonction parabolique
+y = a*x^2 + b*x + c
+a=(-1.25 ±0.060)
+b=(2.04 ±0.11)
+c=(0.717 ±0.045)
+Avec un intervalle de confiance de 95% sans incertitudes sur x et y.
+```
+
+![](https://github.com/david-therincourt/physapp/blob/main/docs/modelisation.png?raw=true)
 
 ---
 
@@ -160,7 +169,7 @@ Module d'importation de tableau de données au format CSV à partir des logiciel
 
 ```python
 import matplotlib.pyplot as plt
-from physapp import load_avimeca3_txt
+from physapp.csv import load_avimeca3_txt
 
 t, x, y = load_avimeca3_txt('data.txt')
 
