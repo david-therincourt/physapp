@@ -122,6 +122,8 @@ def __find_indice_down(x0, x):
 
         
 def reduire(x, y, xlim_inf, xlim_sup):
+    if xlim_inf==None and xlim_sup==None:
+        return x, y, (x[0], x[-1])
     if xlim_inf==None:
         xlim_inf=x[0]
     if xlim_sup==None:
@@ -153,7 +155,7 @@ def markdownTable(data: list, header: list = [], col_witdh: int = 12, nb_round: 
     Paramètres :
         data        (2D array) : données à écrire dans le tableau.
         header      (1D array) : liste des étiquettes de l'entête.
-        col_witdh   (int)      : largeur en caractères d'un colonne.
+        col_witdh   (int)      : largeur en caractères d'une colonne.
         nb_round    (int)      : nombre de chiffres significatifs pour les arrondis.
 
     Retourne :
