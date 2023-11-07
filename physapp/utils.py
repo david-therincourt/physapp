@@ -102,7 +102,7 @@ def pround(x, n):
 #########################################################
 #     Sélectionner des valeurs dans un tableau Numpy    #
 ######################################################### 
-def __find_indice_up(x0, x):
+def _find_indice_up(x0, x):
     if type(x) == list:
         x = np.array(x)
     if (x[0] <= x0 <= x[-1]):
@@ -111,7 +111,7 @@ def __find_indice_up(x0, x):
         messag = "{} not in x array !".format(x0)
         raise ValueError(messag)
     
-def __find_indice_down(x0, x):
+def _find_indice_down(x0, x):
     if type(x) == list:
         x = np.array(x)
     if (x[0] <= x0 <= x[-1]):
@@ -128,8 +128,8 @@ def reduire(x, y, xlim_inf, xlim_sup):
         xlim_inf=x[0]
     if xlim_sup==None:
         xlim_sup=x[-1]
-    i_inf = __find_indice_up(xlim_inf,  x)
-    i_sup = __find_indice_down(xlim_sup,  x)
+    i_inf = _find_indice_up(xlim_inf,  x)
+    i_sup = _find_indice_down(xlim_sup,  x)
     return x[i_inf:i_sup+1], y[i_inf:i_sup+1], (xlim_inf, xlim_sup)
 
 
@@ -138,12 +138,12 @@ def reduire(x, y, xlim_inf, xlim_sup):
 ########################################################
 #                 Markdown table                       #
 ########################################################
-def __celluleText(text: str, width: int) -> str:
+def _celluleText(text: str, width: int) -> str:
     space_before = (width - len(text))//2
     space_after = width - len(text) - space_before
     return "| " + " "*space_before + text + " "*space_after
 
-def __celluleValue(x: float, width: int, nb_round:int) -> int:
+def _celluleValue(x: float, width: int, nb_round:int) -> int:
     formater = "{:." + str(nb_round) + "}"
     val = formater.format(x)
     return "| " + val + " "*(width - len(val)) 
@@ -175,7 +175,7 @@ def markdownTable(data: list, header: list = [], col_witdh: int = 12, nb_round: 
             header.append("var_{}".format(i+1))
             
     for i in range(nb_col):
-        md_table += __celluleText(header[i], witdh)
+        md_table += _celluleText(header[i], witdh)
     md_table += "|\n"
     
     
@@ -186,7 +186,7 @@ def markdownTable(data: list, header: list = [], col_witdh: int = 12, nb_round: 
     data = data.transpose()
     for i in range(nb_row):
         for j in range(nb_col):
-            md_table += __celluleValue(data[i,j], witdh, nb_round)
+            md_table += _celluleValue(data[i,j], witdh, nb_round)
         md_table += "|\n"
     
     return md_table

@@ -28,9 +28,9 @@ print(modele)
 
 
 
-plt.plot(f, T, '+r', label="Mesures")
+plt.plot(f, T, 'Pr', label="Mesures")
 modele.plot()
-modele.legend()
+#modele.legend()
 plt.xscale('log')
 plt.legend()
 plt.grid()

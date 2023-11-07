@@ -116,10 +116,11 @@ x = [0.003,0.141,0.275,0.410,0.554,0.686,0.820,0.958,1.089,1.227,1.359,1.490,1.5
 y = [0.746,0.990,1.175,1.336,1.432,1.505,1.528,1.505,1.454,1.355,1.207,1.018,0.797,0.544,0.266]
 
 modele = ajustement_parabolique(x, y)
+print(modele)
 
 plt.plot(x, y, '+', label="Mesures")
 modele.plot()                        # Trace la courbe du modèle         
-modele.legend()                      # Affiche la légende du modèle
+#modele.legend()                     # Affiche la légende du modèle
 plt.legend()
 plt.title("Trajectoire d'un ballon")
 plt.xlabel("x (m)")
@@ -133,10 +134,10 @@ Résultat :
 ```python
 Fonction parabolique
 y = a*x^2 + b*x + c
-a=(-1.25 ±0.060)
-b=(2.04 ±0.11)
-c=(0.717 ±0.045)
-Avec un intervalle de confiance de 95% sans incertitudes sur x et y.
+a = (-1.25 ±0.060)
+b = (2.04 ±0.11)
+c = (0.717 ±0.045)
+Intervalle de confiance à 95% sans incertitudes sur x et y.
 ```
 
 ![](https://github.com/david-therincourt/physapp/blob/main/docs/modelisation.png?raw=true)
@@ -165,22 +166,4 @@ Module d'importation de tableau de données au format CSV à partir des logiciel
 
 `save_txt(data, fileName)`
 
-#### > Exemple
-
-```python
-import matplotlib.pyplot as plt
-from physapp.csv import load_avimeca3_txt
-
-t, x, y = load_avimeca3_txt('data.txt')
-
-plt.plot(x,y,'.')
-plt.title("Trajectoire d'un ballon")
-plt.xlabel('x (m)')
-plt.ylabel('y (m)')
-plt.grid()
-plt.show()
-```
-
-Le fichier `data.txt` a été exporté du logiciel Avimeca 3 à partir d'un exemple !
-
-![](https://github.com/david-therincourt/physapp/blob/main/docs/csv_avimeca.png?raw=true)
+---
