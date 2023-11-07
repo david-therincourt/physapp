@@ -4,15 +4,15 @@ import matplotlib.pyplot as plt
 from physapp.modelisation import *
 
 
-f, Ue, Us, phi = np.loadtxt('csv/ordre_1a.csv', delimiter=',', skiprows=1, unpack=True)
+f, Ue, Us, phi = np.loadtxt('csv/ordre_1_ph.csv', delimiter=',', skiprows=1, unpack=True)
 T = Us/Ue
 G = 20*np.log10(T)
 
 #modele = ajustement_ordre1_passe_bas_transmittance(f,T)
-modele = ajustement_ordre1_passe_bas_gain(f,G)
+#modele = ajustement_ordre1_passe_bas_gain(f,G)
 #modele = ajustement_ordre1_passe_bas_dephasage(f,phi)
 
-#modele = ajustement_ordre1_passe_haut_transmittance(f,T)
+modele = ajustement_ordre1_passe_haut_transmittance(f,T)
 #modele = ajustement_ordre1_passe_haut_gain(f,G)
 #modele = ajustement_ordre1_passe_haut_dephasage(f,phi)
 
@@ -28,7 +28,7 @@ print(modele)
 
 
 
-plt.plot(f, G, '+r', label="Mesures")
+plt.plot(f, T, '+r', label="Mesures")
 modele.plot()
 modele.legend()
 plt.xscale('log')
