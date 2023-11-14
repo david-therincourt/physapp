@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from physapp.modelisation import ajustement_affine, ajustement_lineaire, ajustement_parabolique
+from physapp import ajustement_affine, ajustement_lineaire, ajustement_parabolique
 from math import nan
 
 # Linéaire
