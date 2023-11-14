@@ -109,9 +109,9 @@ def derive(y, x, pas=1):
 
 
 
-def integrale(y, x, xmin, xmax, plot_ax=None):
+def integrale(y, x, xinf, xsup, plot_ax=None):
     """ Calcule une approximation l'intégrale de la fonction y=f(x) entre
-    les bornes xmin et xmax avec la méthode des trapèzes.
+    les bornes xinf et xsup avec la méthode des trapèzes.
     
     Parameters
     ----------
@@ -121,10 +121,10 @@ def integrale(y, x, xmin, xmax, plot_ax=None):
     x : numpy.ndarray
         Tableau Numpy des x.
 
-    xmin : float
+    xinf : float
         Borne inférieure pour l'intégration.
 
-    xmax : float
+    xsup : float
         Borne supérieure pour l'intégration.
 
     plot_ax : matplotlib.axes, optionnel (None par défaut)
@@ -136,14 +136,14 @@ def integrale(y, x, xmin, xmax, plot_ax=None):
         Résultat de l'intégration.
     """
 
-    if (xmin<x[0]) or (xmin>x[-2]):
-        raise ValueError("Valeur de xmin en dehors de l'intervalle de x")
-    if (xmax<x[1]) or (xmax>x[-1]):
-        raise ValueError("Valeur de xmax en dehors de l'intervalle de x")
-    if xmin>=xmax:
-        raise ValueError("Valeur de xmin supérieure à la valeur de xmax")
+    if (xinf<x[0]) or (xinf>x[-2]):
+        raise ValueError("Valeur de xinf en dehors de l'intervalle de x")
+    if (xsup<x[1]) or (xsup>x[-1]):
+        raise ValueError("Valeur de xsup en dehors de l'intervalle de x")
+    if xinf>=xsup:
+        raise ValueError("Valeur de xinf supérieure à la valeur de xsup")
     
-    condition = (x >= xmin) & (x < xmax)
+    condition = (x >= xinf) & (x < xsup)
     y = y[condition]  # Sélection sur une période
     x = x[condition]  # Sélection sur une période
     

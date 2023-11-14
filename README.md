@@ -16,7 +16,7 @@ pip install --upgrade physapp
 
 ## Dépendances
 
-Cette librairie se base principalement sur les librairies `numpy` , `matplotlib` et `scipy` .
+Cette librairie se base principalement sur les librairies `numpy (>= 1.26.0)` , `matplotlib (>= 3.8.0)` et `scipy (>= 1.11.0)`.
 
 ---
 
@@ -26,7 +26,7 @@ Cette librairie se base principalement sur les librairies `numpy` , `matplotlib`
 
 `derive(y, x)`
 
-`integrale(y, x, xmin, xmax)`
+`integrale(y, x, xinf, xsup)`
 
 `spectre_amplitude(y, t, T)`
 
