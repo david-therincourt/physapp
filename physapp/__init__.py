@@ -30,7 +30,7 @@ Librairie Python 3 pour la physique appliquée en classe de BTS
 @author: David Thérincourt - 2023
 """
 
-from physapp.base import derive, integrale, spectre_amplitude, spectre_RMS, spectre_RMS_dBV
-from physapp.utils import pround, markdown_table
-import physapp.csv
-import physapp.modelisation
+from physapp.base import *
+from physapp.utils import *
+from physapp.csv import *
+from physapp.modelisation import *
