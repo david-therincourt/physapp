@@ -73,10 +73,12 @@ from scipy.signal import correlate, find_peaks, peak_prominences
 
 
 
-def derive(y, x):
+def derive(y, x, pas=1):
     """ Retourne la dérivée de la fonction f(x) avec l'approximation :
     
-                  dy/dx = (y[n+1]-y[n-1])/(x[n+1]-x[n-1])
+                  dy/dx = (y[n+pas]-y[n-pas])/(x[n+pas]-x[n-pas])
+
+        avec pas = 1 par défaut.
 
     Parameters
     ----------
@@ -85,6 +87,9 @@ def derive(y, x):
     
     x : numpy.ndarray
         Tableau Numpy des x.
+
+    pas : int
+        Pas d'indice.
 
     Return
     ------
@@ -95,9 +100,9 @@ def derive(y, x):
     """
     
     N = len(y)
-    d = [float('nan') for i in range(N)]
-    for i in range(1, len(y)-1):
-        d[i] = (y[i+1]-y[i-1])/(x[i+1]-x[i-1])
+    d = np.full(N, np.nan)
+    for i in range(pas, len(y)-pas):
+        d[i] = (y[i+pas]-y[i-pas])/(x[i+pas]-x[i-pas])
     return d
 
 
@@ -138,11 +143,12 @@ def integrale(y, x, xmin, xmax, plot_ax=None):
     if xmin>=xmax:
         raise ValueError("Valeur de xmin supérieure à la valeur de xmax")
     
-    y = y[(x >= xmin) & (x < xmax)]  # Sélection sur une période
-    x = x[(x >= xmin) & (x < xmax)]  # Sélection sur une période
+    condition = (x >= xmin) & (x < xmax)
+    y = y[condition]  # Sélection sur une période
+    x = x[condition]  # Sélection sur une période
     
     if plot_ax != None:
-        plot_ax.fill_between(x,y,hatch='\\',facecolor='linen',  edgecolor='gray')
+        plot_ax.fill_between(x, y, hatch='\\', facecolor='linen', edgecolor='gray')
         
     return trapz(y)*(x[-1]-x[0])/len(x)
 

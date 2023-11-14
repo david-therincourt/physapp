@@ -7,7 +7,7 @@ from matplotlib.lines import Line2D
 import scipy.stats as sstats
 from scipy.optimize import curve_fit
 
-from physapp.utils import pround, reduire
+from physapp.utils import pround, shape
 from physapp.fonctions import *
 
 
@@ -267,7 +267,7 @@ class Modele():
     
     
    
-    def __str__(self):
+    def __repr__(self):
         """ Affiche le résultat détaillé de la modélisation.
 
         Renvoie :
@@ -346,7 +346,7 @@ class Modele():
 # Ajustement suivant une fonction linéaire
 def ajustement_lineaire(x, y, x_inf: float = None, x_sup: float = None, a0: float = 1):
     
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(lineaire, x, y, p0=[a0])  
     infos_dic = {
         'model_name'       : 'Fonction linéaire',
@@ -365,7 +365,7 @@ def ajustement_lineaire(x, y, x_inf: float = None, x_sup: float = None, a0: floa
 # Ajustement suivant une fonction affine
 def ajustement_affine(x, y, x_inf: float = None, x_sup: float = None, a0: float = 1, b0: float = 1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(affine, x, y, p0=[a0, b0])
     infos_dic = {
         'model_name'       : 'Fonction affine',
@@ -385,7 +385,7 @@ def ajustement_affine(x, y, x_inf: float = None, x_sup: float = None, a0: float 
 # Ajustement suivant une fonction parabolique
 def ajustement_parabolique(x, y, x_inf: float = None, x_sup: float = None, a0: float = 1, b0: float = 1, c0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(parabole, x, y, p0=[a0, b0, c0])
     infos_dic = {
         'model_name'       : 'Fonction parabolique',
@@ -406,7 +406,7 @@ def ajustement_parabolique(x, y, x_inf: float = None, x_sup: float = None, a0: f
 # Ajustement suivant une fonction exponentielle croissante
 def ajustement_exponentielle_croissante(x, y, x_inf: float = None, x_sup: float = None, A0: float = 1, tau0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(exponentielle_croissante, x, y, p0=[A0, tau0])
     infos_dic = {
         'model_name'       : 'Fonction exponentielle croissante',
@@ -424,7 +424,7 @@ def ajustement_exponentielle_croissante(x, y, x_inf: float = None, x_sup: float 
 
 def ajustement_exponentielle_decroissante(x, y, x_inf: float = None, x_sup: float = None, A0: float = 1, tau0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(exponentielle_decroissante, x, y, p0=[A0, tau0])
     infos_dic = {
         'model_name'       : 'Fonction exponentielle décroissante',
@@ -442,7 +442,7 @@ def ajustement_exponentielle_decroissante(x, y, x_inf: float = None, x_sup: floa
 
 def ajustement_exponentielle2_croissante(x, y, x_inf: float = None, x_sup: float = None, A0: float = 1, k0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(exponentielle2_croissante, x, y, p0=[A0, k0])
     infos_dic = {
         'model_name'       : 'Fonction exponentielle croissante',
@@ -460,7 +460,7 @@ def ajustement_exponentielle2_croissante(x, y, x_inf: float = None, x_sup: float
 
 def ajustement_exponentielle2_decroissante(x, y, x_inf: float = None, x_sup: float = None, A0: float = 1, k0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(exponentielle2_decroissante, x, y, p0=[A0, k0])
     infos_dic = {
         'model_name'       : 'Fonction exponentielle décroissante',
@@ -479,7 +479,7 @@ def ajustement_exponentielle2_decroissante(x, y, x_inf: float = None, x_sup: flo
 
 def ajustement_puissance(x, y, x_inf: float = None, x_sup: float = None, A0: float = 1, n0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(puissance, x, y, p0=[A0, n0])
     infos_dic = {
         'model_name'       : 'Fonction puissance',
@@ -500,7 +500,7 @@ def ajustement_puissance(x, y, x_inf: float = None, x_sup: float = None, A0: flo
 ###########################################################
 def ajustement_ordre1_passe_bas_transmittance(x, y, x_inf: float = None, x_sup: float = None, T0=1, f0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre1_passe_bas_transmittance, x, y, p0=[T0, f0])
     infos_dic = {
         'model_name'       : "Transmittance - Passe bas d'ordre 1",
@@ -518,7 +518,7 @@ def ajustement_ordre1_passe_bas_transmittance(x, y, x_inf: float = None, x_sup: 
 
 def ajustement_ordre1_passe_bas_gain(x, y, x_inf: float = None, x_sup: float = None, G0=0, f0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre1_passe_bas_gain, x, y, p0=[G0, f0])
     infos_dic = {
         'model_name'       : "Gain - Passe bas d'ordre 1",
@@ -537,7 +537,7 @@ def ajustement_ordre1_passe_bas_gain(x, y, x_inf: float = None, x_sup: float = N
 
 def ajustement_ordre1_passe_bas_dephasage(x, y, x_inf: float = None, x_sup: float = None, f0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre1_passe_bas_dephasage, x, y, p0=[f0])
     infos_dic = {
         'model_name'       : "Déphasage - Passe bas d'ordre 1",
@@ -559,7 +559,7 @@ def ajustement_ordre1_passe_bas_dephasage(x, y, x_inf: float = None, x_sup: floa
 
 def ajustement_ordre1_passe_haut_transmittance(x, y, x_inf: float = None, x_sup: float = None, T0=1, f0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre1_passe_haut_transmittance, x, y, p0=[T0, f0])
     infos_dic = {
         'model_name'       : "Transmittance - Passe haut d'ordre 1",
@@ -577,7 +577,7 @@ def ajustement_ordre1_passe_haut_transmittance(x, y, x_inf: float = None, x_sup:
 
 def ajustement_ordre1_passe_haut_gain(x, y, x_inf: float = None, x_sup: float = None, G0=0, f0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre1_passe_haut_gain, x, y, p0=[G0, f0])
     infos_dic = {
         'model_name'       : "Gain - Passe haut d'ordre 1",
@@ -596,7 +596,7 @@ def ajustement_ordre1_passe_haut_gain(x, y, x_inf: float = None, x_sup: float = 
 
 def ajustement_ordre1_passe_haut_dephasage(x, y, x_inf: float = None, x_sup: float = None, f0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre1_passe_haut_dephasage, x, y, p0=[f0])
     infos_dic = {
         'model_name'       : "Déphasage - Passe haut d'ordre 1",
@@ -618,7 +618,7 @@ def ajustement_ordre1_passe_haut_dephasage(x, y, x_inf: float = None, x_sup: flo
 ###########################################################
 def ajustement_ordre2_passe_bas_transmittance(x, y, x_inf: float = None, x_sup: float = None, T0=1, f0=1, m0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre2_passe_bas_transmittance, x, y, p0=[T0, f0, m0])
     infos_dic = {
         'model_name'       : "Transmittance - Passe bas d'ordre 2",
@@ -636,7 +636,7 @@ def ajustement_ordre2_passe_bas_transmittance(x, y, x_inf: float = None, x_sup: 
 
 def ajustement_ordre2_passe_bas_gain(x, y, x_inf: float = None, x_sup: float = None, G0=0, f0=1, m0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre2_passe_bas_gain, x, y, p0=[G0, f0, m0])
     infos_dic = {
         'model_name'       : "Gain - Passe bas d'ordre 2",
@@ -655,7 +655,7 @@ def ajustement_ordre2_passe_bas_gain(x, y, x_inf: float = None, x_sup: float = N
 
 def ajustement_ordre2_passe_bas_dephasage(x, y, x_inf: float = None, x_sup: float = None, f0=1, m0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre2_passe_bas_dephasage, x, y, p0=[f0, m0])
     infos_dic = {
         'model_name'       : "Déphasage - Passe bas d'ordre 2",
@@ -676,7 +676,7 @@ def ajustement_ordre2_passe_bas_dephasage(x, y, x_inf: float = None, x_sup: floa
 ###########################################################
 def ajustement_ordre2_passe_haut_transmittance(x, y, x_inf: float = None, x_sup: float = None, T0=1, f0=1, m0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre2_passe_haut_transmittance, x, y, p0=[T0, f0, m0])
     infos_dic = {
         'model_name'       : "Transmittance - Passe haut d'ordre 2",
@@ -694,7 +694,7 @@ def ajustement_ordre2_passe_haut_transmittance(x, y, x_inf: float = None, x_sup:
 
 def ajustement_ordre2_passe_haut_gain(x, y, x_inf: float = None, x_sup: float = None, G0=0, f0=1, m0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre2_passe_haut_gain, x, y, p0=[G0, f0, m0])
     infos_dic = {
         'model_name'       : "Gain - Passe haut d'ordre 2",
@@ -713,7 +713,7 @@ def ajustement_ordre2_passe_haut_gain(x, y, x_inf: float = None, x_sup: float = 
 
 def ajustement_ordre2_passe_haut_dephasage(x, y, x_inf: float = None, x_sup: float = None, f0=1, m0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre2_passe_haut_dephasage, x, y, p0=[f0, m0])
     infos_dic = {
         'model_name'       : "Déphasage - Passe haut d'ordre 2",
@@ -734,7 +734,7 @@ def ajustement_ordre2_passe_haut_dephasage(x, y, x_inf: float = None, x_sup: flo
 ###########################################################
 def ajustement_ordre2_passe_bande_transmittance(x, y, x_inf: float = None, x_sup: float = None, T0=1, f0=1, m0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre2_passe_bande_transmittance, x, y, p0=[T0, f0, m0])
     infos_dic = {
         'model_name'       : "Transmittance - Passe bande d'ordre 2",
@@ -752,7 +752,7 @@ def ajustement_ordre2_passe_bande_transmittance(x, y, x_inf: float = None, x_sup
 
 def ajustement_ordre2_passe_bande_gain(x, y, x_inf: float = None, x_sup: float = None, G0=0, f0=1, m0=1):
 
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre2_passe_bande_gain, x, y, p0=[G0, f0, m0])
     infos_dic = {
         'model_name'       : "Gain - Passe bande d'ordre 2",
@@ -771,7 +771,7 @@ def ajustement_ordre2_passe_bande_gain(x, y, x_inf: float = None, x_sup: float =
 
 def ajustement_ordre2_passe_bande_dephasage(x, y, x_inf: float = None, x_sup: float = None, f0=1, m0=1):
     # Problème décalage pour f=f0
-    x, y, xlim = reduire(x, y, x_inf, x_sup)
+    x, y, xlim = shape(x, y, x_inf, x_sup)
     popt, pcov  = curve_fit(ordre2_passe_bande_dephasage, x, y, p0=[f0, m0])
     infos_dic = {
         'model_name'       : "Déphasage - Passe bande d'ordre 2",

@@ -121,15 +121,30 @@ def _find_indice_down(x0, x):
         raise ValueError(messag)
 
         
-def reduire(x, y, xlim_inf, xlim_sup):
+def shape(x, y, xlim_inf, xlim_sup):
+
+    # Trans forme les listes en tableau Numpy
+    if type(x) == list:
+        x = np.array(x)
+    if type(y) == list:
+        y = np.array(y)
+
+    # Supprime les valeur à Nan (not a number)
+    mask = ~(np.isnan(x) | np.isnan(y)) # masque de suppression des NAN
+    x, y = x[mask], y[mask]             # sélectionne les valeur sans NAN   
+    
     if xlim_inf==None and xlim_sup==None:
         return x, y, (x[0], x[-1])
+    
     if xlim_inf==None:
         xlim_inf=x[0]
+    
     if xlim_sup==None:
         xlim_sup=x[-1]
+    
     i_inf = _find_indice_up(xlim_inf,  x)
     i_sup = _find_indice_down(xlim_sup,  x)
+    
     return x[i_inf:i_sup+1], y[i_inf:i_sup+1], (xlim_inf, xlim_sup)
 
 
@@ -149,11 +164,13 @@ def _celluleValue(x: float, width: int, nb_round:int) -> int:
     return "| " + val + " "*(width - len(val)) 
     
 
-def markdownTable(data: list, header: list = [], col_witdh: int = 12, nb_round: int = 4) -> int:
-    """ Retourne un tableau au format Markdown à partir des plusieurs tableaux de données.
+def markdown_table(*args, header: list = [], col_witdh: int = 12, nb_round: int = 4) -> int:
+    """ Retourne un tableau au format Markdown à partir des plusieurs listes ou tableaux Numpy.
 
     Paramètres :
-        data        (2D array) : données à écrire dans le tableau.
+        *args       (list)     : listes des données à afficher dans le tableau Markdown
+
+    Paramètres optionnels :    
         header      (1D array) : liste des étiquettes de l'entête.
         col_witdh   (int)      : largeur en caractères d'une colonne.
         nb_round    (int)      : nombre de chiffres significatifs pour les arrondis.
@@ -162,31 +179,35 @@ def markdownTable(data: list, header: list = [], col_witdh: int = 12, nb_round: 
         (str) : chaîne de caractères au format Markdown
     """
 
-    if type(data) == list:
-        data = np.array(data)
-        
-    nb_col = len(data)
-    nb_row = len(data[0])
+    data = list(zip(*args)) # Transposition des listes
+      
+    nb_row = len(data)
+    nb_col = len(data[0])
     witdh = col_witdh + 1
     md_table = ""
-    
+
+    ### Ajoute noms des entêtes par défaut
     if header==[]:
         for i in range(nb_col):
             header.append("var_{}".format(i+1))
-            
+    
+    if len(header) != nb_col:
+        raise Exception("Taille de la liste de l'argument header non conforme au nombre de colonnes à afficher !")
+
+    ### Ligne d'entête        
     for i in range(nb_col):
         md_table += _celluleText(header[i], witdh)
     md_table += "|\n"
     
-    
+    ### Ligne de sépration
     for i in range(nb_col):
         md_table += "| " + "-"*(witdh-1) + " "
     md_table += "|\n"
     
-    data = data.transpose()
+    ### Ligne de données
     for i in range(nb_row):
         for j in range(nb_col):
-            md_table += _celluleValue(data[i,j], witdh, nb_round)
+            md_table += _celluleValue(data[i][j], witdh, nb_round)
         md_table += "|\n"
     
     return md_table

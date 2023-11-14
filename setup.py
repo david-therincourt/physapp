@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="physapp", 
-    version="0.3.3",
+    version="0.3.4",
     author="David THERINCOURT",
     author_email="dtherincourt@gmail.com",
     description="Librairie Python pour la physique appliquée",

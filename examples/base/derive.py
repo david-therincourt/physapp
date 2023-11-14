@@ -11,7 +11,7 @@ A = 5
 #### CALCULS ####
 t = np.linspace(-T, T, 200)
 u = A*np.sin(w*t)
-du = derive(u,t)
+du = derive(u,t, pas=2)
 
 T = np.nanmax(du)/max(u)
 print("T = ", T)
